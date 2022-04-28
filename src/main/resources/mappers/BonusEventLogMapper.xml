@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itmuch.usercenter.mapper.BonusEventLogMapper">
+  <resultMap id="baseResultMap" type="com.itmuch.usercenter.model.BonusEventLog">
+    <id property="id" column="id" jdbcType="INTEGER"/>
+    <result property="userId" column="user_id" jdbcType="INTEGER"/><!-- user.id -->
+    <result property="value" column="value" jdbcType="INTEGER"/><!-- 积分操作值 -->
+    <result property="event" column="event" jdbcType="VARCHAR"/><!-- 发生的事件 -->
+    <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/><!-- 创建时间 -->
+    <result property="description" column="description" jdbcType="VARCHAR"/><!-- 描述 -->
+  </resultMap>
+</mapper>

@@ -1,9 +1,11 @@
 package com.itmuch.usercenter;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+@MapperScan(basePackages = "com.itmuch.usercenter")
 public class UserCenterApplication {
 
   public static void main(String[] args) {

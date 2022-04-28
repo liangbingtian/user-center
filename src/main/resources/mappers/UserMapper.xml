@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itmuch.usercenter.mapper.UserMapper">
+  <resultMap id="baseResultMap" type="com.itmuch.usercenter.model.User">
+    <id property="id" column="id" jdbcType="INTEGER"/>
+    <result property="wxId" column="wx_id" jdbcType="VARCHAR"/><!-- 微信id -->
+    <result property="wxNickname" column="wx_nickname" jdbcType="VARCHAR"/><!-- 微信昵称 -->
+    <result property="roles" column="roles" jdbcType="VARCHAR"/><!-- 角色 -->
+    <result property="avatarUrl" column="avatar_url" jdbcType="VARCHAR"/><!-- 头像地址 -->
+    <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/><!-- 创建时间 -->
+    <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/><!-- 修改时间 -->
+    <result property="bonus" column="bonus" jdbcType="INTEGER"/><!-- 积分 -->
+  </resultMap>
+</mapper>
