@@ -10,13 +10,21 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.itmuch</groupId>
-  <artifactId>user-center</artifactId>
+  <artifactId>it-much</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>user-center</name>
+  <name>it-much</name>
   <description>Demo project for Spring Boot</description>
+
+  <modules>
+    <module>user-center</module>
+    <module>content-center</module>
+  </modules>
   <properties>
     <java.version>1.8</java.version>
   </properties>
+
+  <packaging>pom</packaging>
+
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itmuch.contentcenter.mapper.NoticeMapper">
+  <resultMap id="baseResultMap" type="com.itmuch.contentcenter.model.Notice">
+    <id property="id" column="id" jdbcType="INTEGER"/>
+    <result property="content" column="content" jdbcType="VARCHAR"/><!-- 内容 -->
+    <result property="showFlag" column="show_flag" jdbcType="BIT"/><!-- 是否显示 0:否 1:是 -->
+    <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/><!-- 创建时间 -->
+  </resultMap>
+</mapper>

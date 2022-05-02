@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itmuch.contentcenter.mapper.ShareMapper">
+  <resultMap id="baseResultMap" type="com.itmuch.contentcenter.model.Share">
+    <id property="id" column="id" jdbcType="INTEGER"/>
+    <result property="userId" column="user_id" jdbcType="INTEGER"/><!-- 发布人id -->
+    <result property="title" column="title" jdbcType="VARCHAR"/><!-- 标题 -->
+    <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/><!-- 创建时间 -->
+    <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/><!-- 修改时间 -->
+    <result property="isOriginal" column="is_original" jdbcType="BIT"/><!-- 是否原创 0:否 1:是 -->
+    <result property="author" column="author" jdbcType="VARCHAR"/><!-- 作者 -->
+    <result property="cover" column="cover" jdbcType="VARCHAR"/><!-- 封面 -->
+    <result property="summary" column="summary" jdbcType="VARCHAR"/><!-- 概要信息 -->
+    <result property="price" column="price" jdbcType="INTEGER"/><!-- 价格（需要的积分） -->
+    <result property="downloadUrl" column="download_url" jdbcType="VARCHAR"/><!-- 下载地址 -->
+    <result property="buyCount" column="buy_count" jdbcType="INTEGER"/><!-- 下载数  -->
+    <result property="showFlag" column="show_flag" jdbcType="BIT"/><!-- 是否显示 0:否 1:是 -->
+    <result property="auditStatus" column="audit_status" jdbcType="VARCHAR"/><!-- 审核状态 NOT_YET: 待审核 PASSED:审核通过 REJECTED:审核不通过 -->
+    <result property="reason" column="reason" jdbcType="VARCHAR"/><!-- 审核不通过原因 -->
+  </resultMap>
+</mapper>
