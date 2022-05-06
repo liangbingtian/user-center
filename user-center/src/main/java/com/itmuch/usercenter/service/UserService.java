@@ -1,6 +1,5 @@
 package com.itmuch.usercenter.service;
 
-import io.mybatis.service.BaseService;
 
 import com.itmuch.usercenter.model.User;
 
@@ -9,6 +8,8 @@ import com.itmuch.usercenter.model.User;
  *
  * @author liangbingtian
  */
-public interface UserService extends BaseService<User, Long> {
+public interface UserService {
+
+  User findById(Long id);
 
 }

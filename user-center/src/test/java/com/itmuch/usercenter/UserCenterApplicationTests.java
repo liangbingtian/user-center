@@ -21,7 +21,7 @@ public class UserCenterApplicationTests {
     User user = new User();
     user.setAvatarUrl("XXX");
     user.setBonus(200);
-    userMapper.insertSelective(user);
+    userMapper.insert(user);
     Assert.assertNotNull(user.getId());
   }
 

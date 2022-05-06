@@ -12,5 +12,17 @@
 
     <artifactId>user-center</artifactId>
 
+    <properties>
+        <nacos-discovery.version>2.2.4.RELEASE</nacos-discovery.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>${nacos-discovery.version}</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

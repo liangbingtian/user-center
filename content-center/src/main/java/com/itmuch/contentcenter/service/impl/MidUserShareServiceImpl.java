@@ -1,10 +1,7 @@
 package com.itmuch.contentcenter.service.impl;
 
-import io.mybatis.service.AbstractService;
 
 import com.itmuch.contentcenter.service.MidUserShareService;
-import com.itmuch.contentcenter.mapper.MidUserShareMapper;
-import com.itmuch.contentcenter.model.MidUserShare;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +10,6 @@ import org.springframework.stereotype.Service;
  * @author liangbingtian
  */
 @Service
-public class  MidUserShareServiceImpl extends AbstractService<MidUserShare, Long, MidUserShareMapper> implements MidUserShareService {
+public class  MidUserShareServiceImpl  implements MidUserShareService {
 
 }

@@ -1,10 +1,7 @@
 package com.itmuch.usercenter.service.impl;
 
-import io.mybatis.service.AbstractService;
 
 import com.itmuch.usercenter.service.BonusEventLogService;
-import com.itmuch.usercenter.mapper.BonusEventLogMapper;
-import com.itmuch.usercenter.model.BonusEventLog;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +10,6 @@ import org.springframework.stereotype.Service;
  * @author liangbingtian
  */
 @Service
-public class  BonusEventLogServiceImpl extends AbstractService<BonusEventLog, Long, BonusEventLogMapper> implements BonusEventLogService {
+public class  BonusEventLogServiceImpl  implements BonusEventLogService {
 
 }

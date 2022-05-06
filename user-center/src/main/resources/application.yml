@@ -5,3 +5,17 @@ spring:
       username: root
       password: liangbing39024&
       driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+#        namespace: b9378992-51d7-45c1-aa33-ad0bb12bf387
+#        cluster-name: NJ
+  application:
+    name: user-center
+server:
+  port: 8080
+  servlet:
+    context-path: /user-center
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

@@ -1,10 +1,9 @@
 package com.itmuch.usercenter.service.impl;
 
-import io.mybatis.service.AbstractService;
 
-import com.itmuch.usercenter.service.UserService;
-import com.itmuch.usercenter.mapper.UserMapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itmuch.usercenter.model.User;
+import com.itmuch.usercenter.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
  *
  * @author liangbingtian
  */
-@Service
-public class  UserServiceImpl extends AbstractService<User, Long, UserMapper> implements UserService {
+@Service(value = "userService")
+public class UserServiceImpl extends ServiceImpl<UserMapper, User>  {
 
 }
