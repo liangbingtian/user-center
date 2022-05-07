@@ -28,3 +28,19 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+logging:
+  level:
+    com.itmuch.contentcenter.feignclient.UserCenterFeignClient: debug
+feign:
+  client:
+    config:
+      #想要调用的微服务的名称
+      user-center:
+        loggerLevel: full
+
+#feign:
+#  client:
+#    config:
+#      #全局配置
+#      default:
+#        loggerLevel: full

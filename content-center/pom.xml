@@ -22,6 +22,12 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
             <version>${nacos-discovery.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.itmuch</groupId>
+            <artifactId>user-center-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 

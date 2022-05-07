@@ -10,22 +10,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>user-center</artifactId>
-
-    <properties>
-        <nacos-discovery.version>2.2.4.RELEASE</nacos-discovery.version>
-    </properties>
+    <artifactId>user-center-api</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <version>${nacos-discovery.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.itmuch</groupId>
-            <artifactId>user-center-api</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
     </dependencies>
 

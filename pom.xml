@@ -17,6 +17,7 @@
 
   <modules>
     <module>user-center</module>
+    <module>user-center-api</module>
     <module>content-center</module>
   </modules>
   <properties>
