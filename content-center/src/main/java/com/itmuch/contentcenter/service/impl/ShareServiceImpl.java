@@ -30,21 +30,15 @@ public class ShareServiceImpl implements ShareService {
   private ShareMapper shareMapper;
 
   @Autowired
-  private DiscoveryClient discoveryClient;
+  private RestTemplate restTemplate;
 
   @Override
   public ShareDTO findShareById(Integer id) {
     Share share = shareMapper.selectById(id);
     Integer userId = share.getUserId();
-    //拿到所有实例信息
-    List<ServiceInstance> instances = discoveryClient.getInstances("user-center");
-    List<String> targetUrls = instances.stream()
-        .map(instance -> instance.getUri().toString() + "/users/{id}").collect(Collectors.toList());
-    int i = ThreadLocalRandom.current().nextInt(targetUrls.size());
-    RestTemplate restTemplate = new RestTemplate();
-    log.info("请求的url地址为:{}", targetUrls.get(i));
+    //ribbon把user-center转换为nacos上地址，进行负载均衡算法
     UserDTO userDTO = restTemplate
-        .getForObject(targetUrls.get(i), UserDTO.class, userId);
+        .getForObject("http://user-center/users/{userId}", UserDTO.class, userId);
     ShareDTO shareDTO = new ShareDTO();
     BeanUtils.copyProperties(share, shareDTO);
     shareDTO.setWxNickname(userDTO.getWxNickname());

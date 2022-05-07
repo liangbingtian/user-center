@@ -11,8 +11,20 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+        cluster-name: BJ
+#        metadata:
 #        namespace: b9378992-51d7-45c1-aa33-ad0bb12bf387
 server:
   port: 8081
   servlet:
     context-path: /content-center
+#user-center:
+#  ribbon:
+ribbon:
+  eager-load:
+    enabled: true
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
