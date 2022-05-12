@@ -28,7 +28,32 @@
             <artifactId>user-center-api</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!--轻量级的流量控制和熔断降级-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-sentinel</artifactId>
+            <version>0.9.0.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-simple-http</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>2.2.2</version>
+        </dependency>
     </dependencies>
+
+
 
 
 </project>

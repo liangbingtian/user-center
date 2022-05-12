@@ -3,6 +3,7 @@ package com.itmuch.contentcenter.controller;
 import com.itmuch.contentcenter.dto.ShareDTO;
 import com.itmuch.contentcenter.service.ShareService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,4 +25,8 @@ public class ShareController {
     return shareService.findShareById(id);
   }
 
+  @GetMapping(value = "/any-index")
+  public String anyIndex() {
+    return shareService.getAnyIndex();
+  }
 }

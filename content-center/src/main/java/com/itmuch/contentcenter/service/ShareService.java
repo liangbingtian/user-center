@@ -1,6 +1,8 @@
 package com.itmuch.contentcenter.service;
 
+import com.itmuch.contentcenter.dto.ShareAuditDTO;
 import com.itmuch.contentcenter.dto.ShareDTO;
+import com.itmuch.contentcenter.model.Share;
 
 
 /**
@@ -11,5 +13,11 @@ import com.itmuch.contentcenter.dto.ShareDTO;
 public interface ShareService  {
 
   ShareDTO findShareById(Integer id);
+
+  ShareDTO findByShareCondition(ShareDTO shareDTO);
+
+  String getAnyIndex();
+
+  Share auditById(Integer id, ShareAuditDTO auditDTO);
 
 }

@@ -1,5 +1,7 @@
 package com.itmuch.usercenter.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +22,7 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("user")
 public class User {
+  @TableId
   private Integer id;
 
   private String wxId;
@@ -30,8 +33,10 @@ public class User {
 
   private String avatarUrl;
 
+  @TableField(exist = false)
   private Date createTime;
 
+  @TableField(exist = false)
   private Date updateTime;
 
   private Integer bonus;
