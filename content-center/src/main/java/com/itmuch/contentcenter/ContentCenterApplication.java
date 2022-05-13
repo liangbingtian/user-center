@@ -18,10 +18,4 @@ public class ContentCenterApplication {
     SpringApplication.run(ContentCenterApplication.class, args);
   }
 
-  @Bean
-  @LoadBalanced
-  public RestTemplate restTemplate() {
-    return new RestTemplate();
-  }
-
 }
