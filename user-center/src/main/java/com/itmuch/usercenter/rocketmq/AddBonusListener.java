@@ -5,6 +5,7 @@ import com.itmuch.usercenter.mapper.BonusEventLogMapper;
 import com.itmuch.usercenter.mapper.UserMapper;
 import com.itmuch.usercenter.model.BonusEventLog;
 import com.itmuch.usercenter.model.User;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @RocketMQMessageListener(consumerGroup = "consumer-group", topic = "add-bonus")
+@Slf4j
 public class AddBonusListener implements RocketMQListener<UserAddBonusMsgDTO> {
 
   @Autowired
@@ -40,5 +42,6 @@ public class AddBonusListener implements RocketMQListener<UserAddBonusMsgDTO> {
     bonusEventLogMapper
         .insert(BonusEventLog.builder().userId(userId).value(bonus).event("CONTRIBUTE")
             .description("投稿加积分").build());
+    log.info("积分添加完毕...");
   }
 }

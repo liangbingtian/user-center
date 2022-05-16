@@ -5,6 +5,7 @@ import com.itmuch.usercenter.dto.WXTokenResponse;
 import com.itmuch.usercenter.mapper.UserMapper;
 import com.itmuch.usercenter.model.User;
 import com.itmuch.usercenter.service.impl.WenhaiWXServiceImpl;
+import com.itmuch.usercenter.util.ApiCaller;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,9 @@ public class UserCenterApplicationTests {
 
   @Autowired
   private RestTemplate restTemplate;
+
+  @Autowired
+  private ApiCaller apiCaller;
 
   @Test
   public void contextLoads() {
@@ -61,6 +65,11 @@ public class UserCenterApplicationTests {
   @Test
   public void test4() throws UnsupportedEncodingException {
     System.out.println(URLEncoder.encode("{\"a\":\"123\"}", "utf-8"));
+  }
+
+  @Test
+  public void test5() {
+    String url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=c8e46ce1-0a8a-444d-b9c0-0a95bd7c2545";
   }
 
 }

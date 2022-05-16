@@ -5,6 +5,8 @@ import com.itmuch.contentcenter.dto.ShareAuditDTO;
 import com.itmuch.contentcenter.dto.ShareDTO;
 
 import com.itmuch.contentcenter.enums.AuditStatusEnum;
+import com.itmuch.contentcenter.mapper.RocketmqTransactionLogMapper;
+import com.itmuch.contentcenter.model.RocketmqTransactionLog;
 import com.itmuch.contentcenter.service.ShareService;
 import com.itmuch.contentcenter.mapper.ShareMapper;
 import com.itmuch.contentcenter.model.Share;
@@ -44,6 +46,9 @@ public class ShareServiceImpl extends ServiceImpl<ShareMapper, Share> implements
   @Autowired
   private RocketMQTemplate rocketMQTemplate;
 
+  @Autowired
+  private RocketmqTransactionLogMapper transactionLogMapper;
+
   @Override
   public ShareDTO findShareById(Integer id) {
     Share share = shareMapper.selectById(id);
@@ -68,7 +73,6 @@ public class ShareServiceImpl extends ServiceImpl<ShareMapper, Share> implements
   }
 
   @Override
-  @Transactional
   public Share auditById(Integer id, ShareAuditDTO auditDTO) {
     //1.查询share是否存在，不存在或者当前的audit_status!=NOT_YET
     Share share = super.getById(id);
@@ -90,6 +94,8 @@ public class ShareServiceImpl extends ServiceImpl<ShareMapper, Share> implements
                   .setHeader("share_id", shareId)
                   .build()
               , auditDTO);
+    }else {
+      this.auditByIdInDB(id, auditDTO);
     }
     return share;
   }
@@ -100,6 +106,14 @@ public class ShareServiceImpl extends ServiceImpl<ShareMapper, Share> implements
     Share share = Share.builder().id(id).auditStatus(auditDTO.getAuditStatusEnum().toString())
         .reason(auditDTO.getReason()).build();
     this.updateById(share);
+    //todo 把share写到缓存
+  }
+
+  @Transactional(rollbackFor = Exception.class)
+  public void auditByIdWithRocketMqLog(Integer id, ShareAuditDTO auditDTO, String transactionId) {
+    this.auditByIdInDB(id, auditDTO);
+    transactionLogMapper
+        .insert(RocketmqTransactionLog.builder().transactionId(transactionId).log("审核分享").build());
   }
 
 

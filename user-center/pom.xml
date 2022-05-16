@@ -32,6 +32,8 @@
             <artifactId>rocketmq-spring-boot-starter</artifactId>
             <version>2.2.2</version>
         </dependency>
+
+        <!-- 下面两个依赖是用来做微信消息解密的-->
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>

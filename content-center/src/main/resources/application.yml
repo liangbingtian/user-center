@@ -12,8 +12,6 @@ spring:
       discovery:
         server-addr: localhost:8848
         cluster-name: BJ
-#        metadata:
-#        namespace: b9378992-51d7-45c1-aa33-ad0bb12bf387
 server:
   port: 8081
   servlet:
@@ -58,3 +56,6 @@ rocketmq:
   producer:
     group: test-group
   # 小坑：必须指定group
+logging:
+  level:
+    com.alibab.nacos: error

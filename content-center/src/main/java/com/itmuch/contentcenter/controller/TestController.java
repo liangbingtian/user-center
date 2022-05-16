@@ -19,9 +19,18 @@ public class TestController {
   @Autowired
   private DiscoveryClient discoveryClient;
 
+//  @Autowired
+//  private Source source;
+
   @GetMapping(value = "/test2")
   public List<ServiceInstance> setDiscoveryClient() {
     return discoveryClient.getInstances("user-center");
   }
+
+//  @GetMapping(value = "/test-stream")
+//  public String testStream() {
+//    source.output().send(MessageBuilder.withPayload("消息体").build());
+//    return "success";
+//  }
 
 }
