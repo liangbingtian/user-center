@@ -10,7 +10,7 @@ spring:
       discovery:
         server-addr: localhost:8848
   #        namespace: b9378992-51d7-45c1-aa33-ad0bb12bf387
-#        cluster-name: NJ
+  #        cluster-name: NJ
   application:
     name: user-center
   redis:
@@ -18,11 +18,28 @@ spring:
     port: 6379
 server:
   port: 8080
-  servlet:
-    context-path: /user-center
+# 接入gateway后就不需要context-path这个配置了，直接让gateway进行转发即可
+#  servlet:
+#    context-path: /user-center
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
 rocketmq:
-  name-server: 192.168.18.8:9876
+  name-server: localhost:9876
+jwt:
+  secret: aaaaaaabbb
+  expire-time-in-second: 1209600
+wx:
+  mp:
+    app-id: wxdc803b08e48ca640
+    secret: c1386ecd93d46163419264ae8d8428c9
+    token: liangbingtian
+    aes-key: NQNSN1GMUQada84X3KCu69tKEU8i5ZDiyTpZWfjNVMx
+    config-storage:
+      type: redistemplate
+      key-prefix: wx
+      redis:
+        host: 127.0.0.1
+        port: 6379
+

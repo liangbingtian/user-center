@@ -1,0 +1,32 @@
+server:
+  port: 8040
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+    gateway:
+      discovery:
+        locator:
+          # 让gateway通过服务发现组件找到其他的微服务。
+          enabled: true
+      routes:
+        - id: after_route
+          uri: lb://user-center
+          predicates:
+            - Path=/users/**, /vx/**
+            - TimeBetween=上午9:00,下午11:00
+          filters:
+            - AddRequestHeader=X-request-Foo, Bar
+            # 自定义的
+            - PreLog=a, b
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

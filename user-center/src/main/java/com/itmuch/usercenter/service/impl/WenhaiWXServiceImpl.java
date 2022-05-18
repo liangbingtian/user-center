@@ -2,14 +2,16 @@ package com.itmuch.usercenter.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.itmuch.usercenter.config.WXRequestConfig;
-import com.itmuch.usercenter.dto.WXServiceMsgDTO;
-import com.itmuch.usercenter.dto.WXTicketRequest;
-import com.itmuch.usercenter.dto.WXTicketResponse;
-import com.itmuch.usercenter.dto.WXTokenResponse;
+import com.itmuch.usercenter.dto.wx.WXServiceMsgDTO;
+import com.itmuch.usercenter.dto.wx.WXServiceMsgNotSafeDTO;
+import com.itmuch.usercenter.dto.wx.WXTicketRequest;
+import com.itmuch.usercenter.dto.wx.WXTicketResponse;
+import com.itmuch.usercenter.dto.wx.WXTokenResponse;
 import com.itmuch.usercenter.service.IWenhaiWXService;
 import com.itmuch.usercenter.util.ApiCaller;
+import com.itmuch.usercenter.util.wx.AesException;
+import com.itmuch.usercenter.util.wx.WXBizMsgCrypt;
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +20,10 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
+import me.chanjar.weixin.mp.config.WxMpConfigStorage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -42,11 +48,13 @@ public class WenhaiWXServiceImpl implements IWenhaiWXService {
   @Autowired
   private ApiCaller apiCaller;
 
-
+  @Autowired
+  private WxMpService wxMpService;
 
 
   /**
    * 获取请求微信公众号需要的accessToken
+   *
    * @return accessToken
    */
   public String getAccessToken() {
@@ -70,8 +78,17 @@ public class WenhaiWXServiceImpl implements IWenhaiWXService {
     return response.getAccessToken();
   }
 
+  public String getAccessToken1() {
+    try {
+      return wxMpService.getAccessToken();
+    } catch (WxErrorException e) {
+      throw new RuntimeException(e.getMessage());
+    }
+  }
+
   /**
    * 请求换取带参数二维码需要的ticket
+   *
    * @param info 参数信息
    * @return ticket
    */
@@ -105,7 +122,7 @@ public class WenhaiWXServiceImpl implements IWenhaiWXService {
     if (TOKEN_INVALID.equals(response.getErrCode())) {
       String accessTokenKey = KEY_MODULE_NAME + ACCESS_TOKEN_KEY;
       template.delete(accessTokenKey);
-      throw new RuntimeException("报错:"+response.getErrMsg()+",请重新请求access_token");
+      throw new RuntimeException("报错:" + response.getErrMsg() + ",请重新请求access_token");
     }
     template.opsForValue()
         .set(qrcode_ticket_key, JSON.toJSONString(response), response.getExpireSeconds(),
@@ -113,39 +130,65 @@ public class WenhaiWXServiceImpl implements IWenhaiWXService {
     return response.getTicket();
   }
 
+  public String getQrCodeTicket1(String info) {
+    try {
+      WxMpQrCodeTicket ticket = wxMpService.getQrcodeService().qrCodeCreateTmpTicket(info, 3000);
+      return ticket.getTicket();
+    } catch (WxErrorException e) {
+      throw new RuntimeException(e.getMessage());
+    }
+
+  }
+
   /**
    * 使用ticket换取QRCode的url。前端进行渲染
+   *
    * @return
    */
   public String showQrCode(String info) {
     try {
       info = URLDecoder.decode(info, "utf-8");
-    } catch (UnsupportedEncodingException e) {
+      //获取ticket
+      String qrCodeTicket = getQrCodeTicket1(info);
+      return wxMpService.getQrcodeService().qrCodePictureUrl(qrCodeTicket);
+    } catch (Exception e) {
       throw new RuntimeException(e.getMessage());
     }
-    //获取ticket
-    String qrCodeTicket = getQrCodeTicket(info);
-    //替换url返回给前端
-    return wxRequestConfig.getShowQrCode().replace(TICKET, qrCodeTicket);
+  }
+
+
+  @Override
+  public boolean checkSignature(String timestamp, String nonce, String signature) {
+    return wxMpService.checkSignature(timestamp, nonce, signature);
   }
 
   @Override
-  public void receiveWXCallback(WXServiceMsgDTO dto) {
-    log.info("收到的信息为:{}", JSON.toJSONString(dto));
+  public void receiveWXCallback(String signature, String timestamp, String nonce,
+      String encryptMsg) {
+    try {
+
+      //解密消息，带参二维码的参数值
+      WxMpConfigStorage storage = wxMpService.getWxMpConfigStorage();
+      WXBizMsgCrypt pc = new WXBizMsgCrypt(storage.getToken(), storage.getAesKey(), storage.getAppId());
+      String resultMsg = pc.decryptMsg(signature, timestamp, nonce, encryptMsg);
+    } catch (AesException e) {
+      throw new RuntimeException(e.getMessage());
+    }
   }
 
 
   /**
    * 将xml转换为消息实体
+   *
    * @param xml
    * @return
    */
-  private WXServiceMsgDTO processServiceMsg(String xml) {
+  private WXServiceMsgNotSafeDTO processServiceMsg(String xml) {
     try {
-      JAXBContext context = JAXBContext.newInstance(WXServiceMsgDTO.class);
+      JAXBContext context = JAXBContext.newInstance(WXServiceMsgNotSafeDTO.class);
       Unmarshaller unmarshaller = context.createUnmarshaller();
       StringReader stringReader = new StringReader(xml);
-      return (WXServiceMsgDTO) unmarshaller.unmarshal(stringReader);
+      return (WXServiceMsgNotSafeDTO) unmarshaller.unmarshal(stringReader);
     } catch (JAXBException e) {
       throw new RuntimeException(e.getMessage());
     }

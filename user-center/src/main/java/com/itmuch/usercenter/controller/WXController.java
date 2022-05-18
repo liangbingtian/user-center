@@ -1,19 +1,16 @@
 package com.itmuch.usercenter.controller;
 
-import com.alibaba.nacos.client.naming.utils.SignUtil;
-import com.itmuch.usercenter.dto.WXServiceMsgDTO;
+import com.itmuch.usercenter.dto.wx.WXServiceMsgDTO;
+import com.itmuch.usercenter.dto.wx.WXServiceMsgNotSafeDTO;
 import com.itmuch.usercenter.service.IWenhaiWXService;
-import com.itmuch.usercenter.util.WXSignUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(value = "/vx")
+@Slf4j
 public class WXController {
 
   @Autowired
@@ -43,8 +41,17 @@ public class WXController {
    * @param dto
    */
   @PostMapping(value = "/call-back-nosafe")
-  public void handleCallBack(@RequestBody WXServiceMsgDTO dto) {
-    wenhaiWXService.receiveWXCallback(dto);
+  public void handleCallBack(@RequestBody WXServiceMsgNotSafeDTO dto) {
+//    wenhaiWXService.receiveWXCallback(dto);
+  }
+
+  @PostMapping(value = "/call-back")
+  public void handleCallBack(@RequestBody String encryptMsg,
+      @RequestParam(value = "MsgSignature") String signature,
+      @RequestParam(value = "timestamp") String timestamp,
+      @RequestParam(value = "nonce") String nonce) {
+    log.info("signature:{}, timestamp:{}, nonce:{}, message:{}", signature, timestamp, nonce, encryptMsg);
+//    wenhaiWXService.receiveWXCallback(signature, timestamp, nonce, encryptMsg);
   }
 
   @GetMapping(value = "/call-back")
@@ -63,7 +70,7 @@ public class WXController {
     try {
       out = response.getWriter();
       //通过检验signature对请求进行校验，校验成功则原样返回echostr，否则接入失败
-      if (WXSignUtil.checkSignature(signature, timestamp, nonce)) {
+      if (wenhaiWXService.checkSignature(timestamp, nonce, signature)) {
         out.print(echostr);
       }
     } catch (IOException e) {
@@ -80,7 +87,7 @@ public class WXController {
       HttpServletResponse response) {
     //随机字符串
     String echostr = request.getParameter("echostr");
-
+    log.info("进入了请求，最终结果echostr为:{}", echostr);
     try (PrintWriter out = response.getWriter()) {
       //通过检验signature对请求进行校验，校验成功则原样返回echostr，否则接入失败
       out.print(echostr);

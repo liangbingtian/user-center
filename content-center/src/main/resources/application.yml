@@ -14,8 +14,8 @@ spring:
         cluster-name: BJ
 server:
   port: 8081
-  servlet:
-    context-path: /content-center
+#  servlet:
+#    context-path: /content-center
 #user-center:
 #  ribbon:
 ribbon:
@@ -52,10 +52,13 @@ management:
       exposure:
         include: '*'
 rocketmq:
-  name-server: 192.168.18.8:9876
+  name-server: localhost:9876
   producer:
     group: test-group
   # 小坑：必须指定group
 logging:
   level:
     com.alibab.nacos: error
+jwt:
+  secret: aaaaaaabbb
+  expire-time-in-second: 1209600

@@ -1,4 +1,4 @@
-package com.itmuch.usercenter.dto;
+package com.itmuch.usercenter.dto.wx;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -15,7 +15,7 @@ import lombok.Data;
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class WXServiceMsgDTO {
+public class WXServiceMsgNotSafeDTO {
 
   @XmlElement(name = "ToUserName")
   private String toUserName;

@@ -1,4 +1,4 @@
-package com.itmuch.usercenter.dto;
+package com.itmuch.usercenter.dto.wx;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
