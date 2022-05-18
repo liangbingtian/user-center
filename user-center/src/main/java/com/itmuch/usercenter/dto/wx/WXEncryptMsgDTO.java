@@ -15,15 +15,12 @@ import lombok.Data;
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class WXServiceMsgDTO {
+public class WXEncryptMsgDTO {
 
   @XmlElement(name = "ToUserName")
   private String toUserName;
 
   @XmlElement(name = "Encrypt")
   private String encrypt;
-
-  @XmlElement(name = "MsgSignature")
-  private String msgSignature;
 
 }

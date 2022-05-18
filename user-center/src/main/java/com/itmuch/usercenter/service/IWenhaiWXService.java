@@ -1,7 +1,7 @@
 package com.itmuch.usercenter.service;
 
-import com.itmuch.usercenter.dto.wx.WXServiceMsgDTO;
-import com.itmuch.usercenter.dto.wx.WXServiceMsgNotSafeDTO;
+import com.itmuch.usercenter.dto.wx.WXDecryptMsgDTO;
+import com.itmuch.usercenter.dto.wx.WXEncryptMsgDTO;
 
 /**
  * 预警模块调用微信服务相关方法
@@ -43,5 +43,5 @@ public interface IWenhaiWXService {
   boolean checkSignature(String timestamp, String nonce, String signature);
 
 
-  void receiveWXCallback(String signature, String timestamp, String nonce, String encryptMsg);
+  void receiveWXCallback(WXEncryptMsgDTO msgDTO);
 }

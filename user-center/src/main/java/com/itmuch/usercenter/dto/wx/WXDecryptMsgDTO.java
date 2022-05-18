@@ -15,7 +15,7 @@ import lombok.Data;
 @XmlRootElement(name = "xml")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class WXServiceMsgNotSafeDTO {
+public class WXDecryptMsgDTO {
 
   @XmlElement(name = "ToUserName")
   private String toUserName;

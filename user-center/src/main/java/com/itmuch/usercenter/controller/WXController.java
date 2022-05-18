@@ -1,7 +1,7 @@
 package com.itmuch.usercenter.controller;
 
-import com.itmuch.usercenter.dto.wx.WXServiceMsgDTO;
-import com.itmuch.usercenter.dto.wx.WXServiceMsgNotSafeDTO;
+import com.itmuch.usercenter.dto.wx.WXDecryptMsgDTO;
+import com.itmuch.usercenter.dto.wx.WXEncryptMsgDTO;
 import com.itmuch.usercenter.service.IWenhaiWXService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -41,17 +41,13 @@ public class WXController {
    * @param dto
    */
   @PostMapping(value = "/call-back-nosafe")
-  public void handleCallBack(@RequestBody WXServiceMsgNotSafeDTO dto) {
+  public void handleCallBack(@RequestBody WXDecryptMsgDTO dto) {
 //    wenhaiWXService.receiveWXCallback(dto);
   }
 
   @PostMapping(value = "/call-back")
-  public void handleCallBack(@RequestBody String encryptMsg,
-      @RequestParam(value = "MsgSignature") String signature,
-      @RequestParam(value = "timestamp") String timestamp,
-      @RequestParam(value = "nonce") String nonce) {
-    log.info("signature:{}, timestamp:{}, nonce:{}, message:{}", signature, timestamp, nonce, encryptMsg);
-//    wenhaiWXService.receiveWXCallback(signature, timestamp, nonce, encryptMsg);
+  public void handleCallBack(@RequestBody WXEncryptMsgDTO msgDTO){
+    wenhaiWXService.receiveWXCallback(msgDTO);
   }
 
   @GetMapping(value = "/call-back")

@@ -2,8 +2,8 @@ package com.itmuch.usercenter.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.itmuch.usercenter.config.WXRequestConfig;
-import com.itmuch.usercenter.dto.wx.WXServiceMsgDTO;
-import com.itmuch.usercenter.dto.wx.WXServiceMsgNotSafeDTO;
+import com.itmuch.usercenter.dto.wx.WXDecryptMsgDTO;
+import com.itmuch.usercenter.dto.wx.WXEncryptMsgDTO;
 import com.itmuch.usercenter.dto.wx.WXTicketRequest;
 import com.itmuch.usercenter.dto.wx.WXTicketResponse;
 import com.itmuch.usercenter.dto.wx.WXTokenResponse;
@@ -163,14 +163,16 @@ public class WenhaiWXServiceImpl implements IWenhaiWXService {
   }
 
   @Override
-  public void receiveWXCallback(String signature, String timestamp, String nonce,
-      String encryptMsg) {
+  public void receiveWXCallback(WXEncryptMsgDTO msgDTO) {
     try {
-
-      //解密消息，带参二维码的参数值
+      String encryptMsg = msgDTO.getEncrypt();
       WxMpConfigStorage storage = wxMpService.getWxMpConfigStorage();
       WXBizMsgCrypt pc = new WXBizMsgCrypt(storage.getToken(), storage.getAesKey(), storage.getAppId());
-      String resultMsg = pc.decryptMsg(signature, timestamp, nonce, encryptMsg);
+      String decryptMsg = pc.decrypt(encryptMsg);
+      WXDecryptMsgDTO decryptMsgDTO = processServiceMsg(decryptMsg);
+      String event = decryptMsgDTO.getEvent();
+      String eventKey = decryptMsgDTO.getEventKey();
+      log.debug("本次微信回调的事件为:{}, 可能存在的场景值为:{}", event, eventKey);
     } catch (AesException e) {
       throw new RuntimeException(e.getMessage());
     }
@@ -183,12 +185,12 @@ public class WenhaiWXServiceImpl implements IWenhaiWXService {
    * @param xml
    * @return
    */
-  private WXServiceMsgNotSafeDTO processServiceMsg(String xml) {
+  private WXDecryptMsgDTO processServiceMsg(String xml) {
     try {
-      JAXBContext context = JAXBContext.newInstance(WXServiceMsgNotSafeDTO.class);
+      JAXBContext context = JAXBContext.newInstance(WXDecryptMsgDTO.class);
       Unmarshaller unmarshaller = context.createUnmarshaller();
       StringReader stringReader = new StringReader(xml);
-      return (WXServiceMsgNotSafeDTO) unmarshaller.unmarshal(stringReader);
+      return (WXDecryptMsgDTO) unmarshaller.unmarshal(stringReader);
     } catch (JAXBException e) {
       throw new RuntimeException(e.getMessage());
     }
