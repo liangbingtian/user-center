@@ -4,6 +4,7 @@ import com.itmuch.usercenter.dto.UserDTO;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  * user-center的feign对外提供的接口

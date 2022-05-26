@@ -13,7 +13,7 @@ spring:
           # 让gateway通过服务发现组件找到其他的微服务。
           enabled: true
       routes:
-        - id: after_route
+        - id: user_route
           uri: lb://user-center
           predicates:
             - Path=/users/**, /vx/**
@@ -22,6 +22,10 @@ spring:
             - AddRequestHeader=X-request-Foo, Bar
             # 自定义的
             - PreLog=a, b
+        - id: content_route
+          uri: lb://content-center
+          predicates:
+            - Path=/shares/**
 management:
   endpoints:
     web:

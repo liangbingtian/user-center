@@ -51,6 +51,7 @@ public class ApiCaller {
 
   private HttpEntity<Object> getHttpEntity(Object body) {
     HttpHeaders headers = new HttpHeaders();
+    //也可以加token
     headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
     headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
     return new HttpEntity<>(body, headers);

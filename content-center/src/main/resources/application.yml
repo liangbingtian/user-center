@@ -5,8 +5,7 @@ spring:
       username: root
       password: liangbing39024&
       driver-class-name: com.mysql.cj.jdbc.Driver
-  application:
-    name: content-center
+
   cloud:
     nacos:
       discovery:
@@ -27,18 +26,20 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
 #feign的性能优化，第一就是日志级别，设置为basic，第二就是使用httpclient或okhttp来设置连接池，以及单路径最大连接数。
+#feign:
+#  client:
+#    config:
+#      #想要调用的微服务的名称
+#      user-center:
+#        loggerLevel: full
 feign:
   client:
     config:
-      #想要调用的微服务的名称
-      user-center:
-        loggerLevel: full
-  #feign:
-  #  client:
-  #    config:
-  #      #全局配置
-  #      default:
-  #        loggerLevel: full
+      #全局配置
+       default:
+         loggerLevel: full
+         requestInterceptors:
+          - com.itmuch.contentcenter.interceptor.TokenRelayRequestInterceptor
   httpclient:
     #让feign使用apache的httpclient做请求，而不是默认的urlconnection
     enabled: true
@@ -59,6 +60,7 @@ rocketmq:
 logging:
   level:
     com.alibab.nacos: error
+    com.itmuch: debug
 jwt:
   secret: aaaaaaabbb
   expire-time-in-second: 1209600

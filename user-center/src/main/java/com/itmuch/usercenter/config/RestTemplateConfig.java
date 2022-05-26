@@ -1,7 +1,9 @@
 package com.itmuch.usercenter.config;
 
+import com.itmuch.usercenter.interceptor.RestTemplateTokenRelayInterceptor;
 import com.itmuch.usercenter.util.ApiCaller;
 import java.time.Duration;
+import java.util.Collections;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +25,11 @@ public class RestTemplateConfig {
   @Bean
   @Primary
   public RestTemplate restTemplate(RestTemplateBuilder builder) {
-    return builder.setReadTimeout(Duration.ofSeconds(READ_TIMEOUT_60)).
-        setConnectTimeout(Duration.ofSeconds(CONN_TIMEOUT_5)).build();
+    return builder
+        .setReadTimeout(Duration.ofSeconds(READ_TIMEOUT_60))
+        .setConnectTimeout(Duration.ofSeconds(CONN_TIMEOUT_5))
+        .interceptors(Collections.singleton(new RestTemplateTokenRelayInterceptor()))
+        .build();
   }
 
   @Bean

@@ -46,36 +46,20 @@ public class WXController {
   }
 
   @PostMapping(value = "/call-back")
-  public void handleCallBack(@RequestBody WXEncryptMsgDTO msgDTO){
+  public void handleCallBack(@RequestBody WXEncryptMsgDTO msgDTO) {
     wenhaiWXService.receiveWXCallback(msgDTO);
   }
 
   @GetMapping(value = "/call-back")
-  public void checkCallBackSignature(HttpServletRequest request, HttpServletResponse response) {
-    //签名
-    String signature = request.getParameter("signature");
-    //时间戳
-    String timestamp = request.getParameter("timestamp");
-    //随机数
-    String nonce = request.getParameter("nonce");
-    //随机字符串
-    String echostr = request.getParameter("echostr");
-
-    PrintWriter out = null;
-
-    try {
-      out = response.getWriter();
-      //通过检验signature对请求进行校验，校验成功则原样返回echostr，否则接入失败
-      if (wenhaiWXService.checkSignature(timestamp, nonce, signature)) {
-        out.print(echostr);
-      }
-    } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
-    } finally {
-      if (out != null) {
-        out.close();
-      }
+  public String checkCallBackSignature(@RequestParam(value = "signature") String signature,
+      @RequestParam(value = "timestamp") String timestamp,
+      @RequestParam(value = "nonce") String nonce,
+      @RequestParam(value = "echostr") String echostr) {
+    //通过检验signature对请求进行校验，校验成功则原样返回echostr，否则接入失败
+    if (wenhaiWXService.checkSignature(timestamp, nonce, signature)) {
+      return echostr;
     }
+    return null;
   }
 
   @GetMapping(value = "/call-back-nosafe")

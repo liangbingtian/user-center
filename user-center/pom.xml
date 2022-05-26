@@ -28,6 +28,10 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.itmuch</groupId>
             <artifactId>user-center-api</artifactId>
             <version>${project.version}</version>
@@ -43,11 +47,6 @@
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
             <version>1.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-            <version>1.4.15</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -82,11 +81,22 @@
             <artifactId>wx-java-mp-spring-boot-starter</artifactId>
             <version>4.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+            <version>4.3.0</version>
+        </dependency>
         <!-- 小程序加密解密的依赖包-->
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
             <version>1.9</version>
+        </dependency>
+
+        <!--aop的依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
     </dependencies>
 
@@ -98,6 +108,11 @@
                 <artifactId>jsr305</artifactId>
                 <version>3.0.2</version>
                 <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.9</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

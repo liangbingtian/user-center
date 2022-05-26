@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @date 2022/05/07 下午8:57
  */
 //@FeignClient(name = "user-center", configuration = UserCenterFeignConfiguration.class)
-@FeignClient(value = "user-center", path = "/user-center")
+@FeignClient(value = "user-center")
 public interface UserClient extends IUserApiService {
 
 }

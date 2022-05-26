@@ -1,5 +1,6 @@
 package com.itmuch.contentcenter.controller;
 
+import com.itmuch.contentcenter.auth.CheckAuthorization;
 import com.itmuch.contentcenter.dto.ShareAuditDTO;
 import com.itmuch.contentcenter.model.Share;
 import com.itmuch.contentcenter.service.ShareService;
@@ -25,7 +26,14 @@ public class ShareAdminController {
   private ShareService shareService;
 
   @PostMapping("/audit/{id}")
+  @CheckAuthorization("admin")
   public Share auditById(@PathVariable(value = "id") Integer id, @RequestBody ShareAuditDTO shareAuditDTO) {
     return shareService.auditById(id, shareAuditDTO);
+  }
+
+  public static void main(String[] args) {
+    String str = "wenhai-active-monitor-warning:wx:state:qrscene_qrscene_d297d711a5f04fbbbad591afd2c8fc1b";
+    int i = str.lastIndexOf("_");
+    System.out.println(str.substring(i+1));
   }
 }

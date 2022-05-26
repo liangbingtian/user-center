@@ -27,9 +27,6 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 rocketmq:
   name-server: localhost:9876
-jwt:
-  secret: aaaaaaabbb
-  expire-time-in-second: 1209600
 wx:
   mp:
     app-id: wxdc803b08e48ca640
@@ -42,6 +39,16 @@ wx:
       redis:
         host: 127.0.0.1
         port: 6379
+  miniapp:
+    appid: wxf8f7e4bc9f23bf6f
+    secret: 303c2f89d7349dbdf7e265c554365cb6
+    config-storage:
+      type: redistemplate
+      key-prefix: wa
 logging:
   level:
     com.itmuch.usercenter.service.impl.WenhaiWXServiceImpl: debug
+jwt:
+  secret: aaaaaaabbb
+  expire-time-in-second: 1209600
+spring.security.ignore

@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserRespDTO {
 
-  private String id;
+  private Integer id;
   private String avatarUrl;
-  private String bonus;
+  private Integer bonus;
   private String wxNickName;
 }
